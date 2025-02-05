@@ -1,0 +1,13 @@
+{
+  "name": "mts-node-bootcamp",
+  "version": "1.0.0",
+  "description": "A simple Node.js application that simulates an ATM machine.",
+  "exports": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "inquirer": "^12.4.0"
+  }
+}
