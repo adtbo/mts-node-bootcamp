@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - ATM Machine</title>
+</head>
+
+<body>
+  <h1>Dashboard</h1>
+  <p>Welcome, <span id="accountNumber"></span>!</p>
+  <p>Your balance: $<span id="balance"></span></p>
+
+  <h2>Actions</h2>
+  <button onclick="checkBalance()">Check Balance</button>
+  <button onclick="showDepositForm()">Deposit</button>
+  <button onclick="showWithdrawForm()">Withdraw</button>
+  <button onclick="viewTransactions()">View Transactions</button>
+
+  <div id="depositForm" style="display: none;">
+    <h3>Deposit</h3>
+    <input type="number" id="depositAmount" placeholder="Amount">
+    <button onclick="deposit()">Submit</button>
+  </div>
+
+  <div id="withdrawForm" style="display: none;">
+    <h3>Withdraw</h3>
+    <input type="number" id="withdrawAmount" placeholder="Amount">
+    <button onclick="withdraw()">Submit</button>
+  </div>
+
+  <p id="message"></p>
+
+  <script>
+    async function checkBalance() {
+      const response = await fetch('/balance');
+      const result = await response.json();
+      document.getElementById('balance').textContent = result.balance;
+    }
+
+    async function deposit() {
+      const amount = document.getElementById('depositAmount').value;
+      const response = await fetch('/deposit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: parseFloat(amount) })
+      });
+      const result = await response.json();
+      document.getElementById('message').textContent = result.message;
+      checkBalance();
+    }
+
+    async function withdraw() {
+      const amount = document.getElementById('withdrawAmount').value;
+      const response = await fetch('/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: parseFloat(amount) })
+      });
+      const result = await response.json();
+      document.getElementById('message').textContent = result.message;
+      checkBalance();
+    }
+
+    function showDepositForm() {
+      document.getElementById('depositForm').style.display = 'block';
+      document.getElementById('withdrawForm').style.display = 'none';
+    }
+
+    function showWithdrawForm() {
+      document.getElementById('withdrawForm').style.display = 'block';
+      document.getElementById('depositForm').style.display = 'none';
+    }
+
+    function viewTransactions() {
+      window.location.href = '/transactions.html';
+    }
+
+    (async () => {
+      const response = await fetch('/account');
+      const result = await response.json();
+      document.getElementById('accountNumber').textContent = result.accountNumber;
+      document.getElementById('balance').textContent = result.balance;
+    })();
+  </script>
+</body>
+
+</html>

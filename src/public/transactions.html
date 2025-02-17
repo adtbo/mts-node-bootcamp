@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions - ATM Machine</title>
+</head>
+
+<body>
+  <h1>Transaction History</h1>
+  <button onclick="exportToCSV()">Export to CSV</button>
+  <table id="transactionsTable">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <a href="/dashboard.html">Back to Dashboard</a>
+
+  <script>
+    (async () => {
+      const response = await fetch('/transactions');
+      const transactions = await response.json();
+      const tbody = document.querySelector('#transactionsTable tbody');
+      transactions.forEach(txn => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+                    <td>${txn.type}</td>
+                    <td>$${txn.amount}</td>
+                    <td>${new Date(txn.date).toLocaleString()}</td>
+                `;
+        tbody.appendChild(row);
+      });
+    })();
+
+    function exportToCSV() {
+      window.location.href = '/export-csv';
+    }
+  </script>
+</body>
+
+</html>

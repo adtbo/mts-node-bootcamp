@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - ATM Machine</title>
+</head>
+
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <label for="accountNumber">Account Number:</label>
+    <input type="text" id="accountNumber" name="accountNumber" required>
+    <br>
+    <label for="pin">PIN:</label>
+    <input type="password" id="pin" name="pin" required>
+    <br>
+    <button type="submit">Login</button>
+  </form>
+  <p id="message"></p>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const accountNumber = document.getElementById('accountNumber').value;
+      const pin = document.getElementById('pin').value;
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accountNumber, pin })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        window.location.href = '/dashboard.html';
+      } else {
+        document.getElementById('message').textContent = 'Invalid account number or PIN.';
+      }
+    });
+  </script>
+</body>
+
+</html>

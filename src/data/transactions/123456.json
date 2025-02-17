@@ -1,0 +1,14 @@
+[
+  {
+    "accountNumber": "123456",
+    "type": "deposit",
+    "amount": 10000,
+    "date": "2025-02-17T05:31:54.340Z"
+  },
+  {
+    "accountNumber": "123456",
+    "type": "withdraw",
+    "amount": 1000,
+    "date": "2025-02-17T05:32:06.642Z"
+  }
+]
